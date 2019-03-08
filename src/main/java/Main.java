@@ -6,23 +6,31 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.scene.media.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.security.Key;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.animation.*;
+import javafx.util.Duration;
 
 public class Main extends Application{
+    //媒体播放控件
     private MediaPlayer MOVPlayer;
     private MediaPlayer LADPlayer;
     private MediaPlayer ADDPlayer;
     private MediaPlayer STOPlayer;
     private MediaPlayer JMPPlayer;
     private MediaPlayer ALLPlayer;
+    private Label PC = new Label("程序计数器");
+    private Label PCS = new Label("");
+    private Pane PcShow = new Pane();
     //创建cpu图片展示的面板
     private Pane pane = new Pane();
     //创建各式label
@@ -64,6 +72,7 @@ public class Main extends Application{
 
         selectCommand.getItems().addAll(items);
         selectCommand.setValue("MOV");
+        PcShow.setMaxSize(10,2);
         //设置输入框宽度
         R0.setPrefWidth(160);
         R1.setPrefWidth(160);
@@ -118,6 +127,7 @@ public class Main extends Application{
         });*/
         startShow.setOnAction(e -> {
             showCommand();
+            //showCommand();
         });
         //布局设置
         //borderPane.setTop(new ImageView(cpuPng));
@@ -127,7 +137,12 @@ public class Main extends Application{
         R0Label.setLayoutY(205);
         R1Label.setLayoutY(227);
         R2Label.setLayoutY(250);
-        pane.getChildren().addAll(new ImageView(cpuPng),R0Label,R1Label,R2Label);
+        PC.setLayoutX(585);
+        PCS.setLayoutX(620);
+        PCS.setLayoutY(16);
+        PC.setLayoutY(336);
+        PcShow.getChildren().addAll(PCS);
+        pane.getChildren().addAll(new ImageView(cpuPng),R0Label,R1Label,R2Label,PC,PcShow);
         borderPane.setTop(pane);
         borderPane.setCenter(ctrlGridPane);
         borderPane.setBottom(outDescription);
@@ -139,35 +154,137 @@ public class Main extends Application{
         primaryStage.show();
 
     }
-    private void Addressingtage(String command){
-        int x = 630;
-        int y = 68;
-        Label label = new Label(command);
-        label.setLayoutX(x);
-        label.setLayoutY(y);
-        PathTransition getCommand = new PathTransition();
-        Path path = new Path();
-        path.getElements().add(new MoveTo(630,16));
-        //getCommand.setPath();
+    private void Common(String command){
+        PCS.setText(command);
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),770),new KeyValue(PCS.layoutYProperty(),16));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),770),new KeyValue(PCS.layoutYProperty(),574));
+        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),642),new KeyValue(PCS.layoutYProperty(),574));
+        KeyFrame keyFrame4 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),642),new KeyValue(PCS.layoutYProperty(),536));
+        Timeline timeline = new Timeline(keyFrame1);
+        //timeline.getKeyFrames().addAll(keyFrame1);
+        timeline.play();
+        timeline.setOnFinished(e1 -> {
+            Timeline timeline1 = new Timeline(keyFrame2);
+            timeline1.play();
+            timeline1.setOnFinished(e2 ->{
+                Timeline timeline2 = new Timeline(keyFrame3);
+                timeline2.play();
+                timeline2.setOnFinished(e3 ->{
+                    Timeline timeline3 = new Timeline(keyFrame4);
+                    timeline3.play();
+                    timeline3.setOnFinished(e4 -> {
+                        //检查执行的到底是哪一条命令
+                        //一开始忘记加break，佛了
+                        switch (items.indexOf(selectCommand.getValue())) {
+                            case 0:
+                                MOV();
+                                break;
+                            case 1:
+                                LAD();
+                                break;
+                            case 2:
+                                ADD();
+                                break;
+                            case 3:
+                                STO();
+                                break;
+                            case 4:
+                                JMP();
+                                break;
+                        }
 
+                    });
+                });
+            });
+        });
     }
-    private void MOV(){
+    private void Common1(String command){
+        PCS.setText(command);
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),770),new KeyValue(PCS.layoutYProperty(),16));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),770),new KeyValue(PCS.layoutYProperty(),574));
+        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),642),new KeyValue(PCS.layoutYProperty(),574));
+        KeyFrame keyFrame4 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),642),new KeyValue(PCS.layoutYProperty(),536));
+        Timeline timeline = new Timeline(keyFrame1);
+        //timeline.getKeyFrames().addAll(keyFrame1);
+        timeline.play();
+        timeline.setOnFinished(e1 -> {
+            Timeline timeline1 = new Timeline(keyFrame2);
+            timeline1.play();
+            timeline1.setOnFinished(e2 ->{
+                Timeline timeline2 = new Timeline(keyFrame3);
+                timeline2.play();
+                timeline2.setOnFinished(e3 ->{
+                    Timeline timeline3 = new Timeline(keyFrame4);
+                    timeline3.play();
+                });
+            });
+        });
+    }
+
+    private void MOVPlayer() {
+        PC.setText("101");
+        //AddressingTage("MOV");
         //输出文字描述
         outDescription.setText(flagDescription[0]);
         //MOV 音频播放控件
-        Media MOV = new Media(getClass().getResource("audio/MOV.mp3").toString());
-        MOVPlayer = new MediaPlayer(MOV);
-        MOVPlayer.setOnReady(()->{
+        MOVPlayer = new MediaPlayer(new Media(getClass().getResource("audio/MOV.mp3").toString()));
+        MOVPlayer.setOnReady(() -> {
             startShow.setDisable(true);
             chkLog.setDisable(true);
             MOVPlayer.play();
         });
-        MOVPlayer.setOnEndOfMedia(()->{
+        MOVPlayer.setOnEndOfMedia(() -> {
             startShow.setDisable(false);
             chkLog.setDisable(false);
         });
     }
-    private void LAD(){
+    private void MOV(){
+        PCS.setText(R1.getText());
+        PCS.setLayoutX(R1Label.getLayoutX());
+        PCS.setLayoutY(R1Label.getLayoutY());
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),178),new KeyValue(PCS.layoutYProperty(),84));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),206),new KeyValue(PCS.layoutYProperty(),16));
+        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),318),new KeyValue(PCS.layoutYProperty(),16));
+        KeyFrame keyFrame4 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),318),new KeyValue(PCS.layoutYProperty(),410));
+        KeyFrame keyFrame5 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),200),new KeyValue(PCS.layoutYProperty(),410));
+        KeyFrame keyFrame6 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),195),new KeyValue(PCS.layoutYProperty(),365));
+        KeyFrame keyFrame7 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),190),new KeyValue(PCS.layoutYProperty(),250));
+        Timeline timeline1 = new Timeline(keyFrame1);
+        timeline1.play();
+        timeline1.setOnFinished(e1 -> {
+           // Timeline timeline2
+            Timeline timeline2 = new Timeline(keyFrame2);
+            timeline2.play();
+            timeline1.setOnFinished(e2 -> {
+                timeline2.play();
+                timeline2.setOnFinished(e3 -> {
+                    Timeline  timeline3 = new Timeline(keyFrame3);
+                    timeline3.play();
+                    timeline3.setOnFinished(e4 -> {
+                        Timeline timeline4 = new Timeline(keyFrame4);
+                        timeline4.play();
+                        timeline4.setOnFinished(e5 -> {
+                            Timeline timeline5 =new Timeline(keyFrame5);
+                            timeline5.play();
+                            timeline5.setOnFinished(e6 -> {
+                                Timeline timeline6 =new Timeline(keyFrame6);
+                                timeline6.play();
+                                timeline6.setOnFinished(e7 -> {
+                                    Timeline timeline7 =new Timeline(keyFrame7);
+                                    timeline7.play();
+                                    timeline7.setOnFinished(e8 -> R0Label.setText(R1.getText()));
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    private void LADPlayer(){
+        PC.setText("102");
+        //AddressingTage("LAD");
         outDescription.setText(flagDescription[1]);
         //LAD 音频播放控件
         Media LAD = new Media(getClass().getResource("audio/LAD.mp3").toString());
@@ -182,14 +299,33 @@ public class Main extends Application{
             startShow.setDisable(false);
             chkLog.setDisable(false);
         });
-        /*LADPlayer.setOnStopped(()->{
-            startShow.setDisable(false);
-            chkLog.setDisable(false);
-            //chkLog
-        });*/
-        //System.out.println( LADPlayer.onStoppedProperty().toString());
     }
-    private void ADD(){
+    private void LAD(){
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),450),new KeyValue(PCS.layoutYProperty(),340));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),453),new KeyValue(PCS.layoutYProperty(),140));
+        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),195),new KeyValue(PCS.layoutYProperty(),365));
+        KeyFrame keyFrame4 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),R1Label.getLayoutX()),new KeyValue(PCS.layoutYProperty(),R1Label.getLayoutY()));
+        Timeline timeline = new Timeline(keyFrame1);
+        //timeline.getKeyFrames().addAll(keyFrame1);
+        timeline.play();
+        timeline.setOnFinished(e1 -> {
+            Timeline timeline1 = new Timeline(keyFrame2);
+            timeline1.play();
+            timeline1.setOnFinished(e2 ->{
+                Timeline timeline2 = new Timeline(keyFrame3);
+                timeline2.play();
+                timeline2.setOnFinished(e3 ->{
+                    Timeline timeline3 = new Timeline(keyFrame4);
+                    timeline3.play();
+                    timeline3.setOnFinished(e -> R0Label.setText("100"));
+                });
+            });
+        });
+    }
+
+    private void ADDPlayer(){
+        PC.setText("103");
+        //AddressingTage("ADD");
         outDescription.setText(flagDescription[2]);
         //ADD 音频播放控件
         Media ADD = new Media(getClass().getResource("audio/ADD.mp3").toString());
@@ -204,7 +340,38 @@ public class Main extends Application{
             chkLog.setDisable(false);
         });
     }
-    private void STO(){
+    private void ADD(){
+        PCS.setText(R1.getText());
+        PCS.setLayoutX(R1Label.getLayoutX());
+        PCS.setLayoutY(R1Label.getLayoutY());
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),178),new KeyValue(PCS.layoutYProperty(),84));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),195),new KeyValue(PCS.layoutYProperty(),365));
+        KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),R1Label.getLayoutX()),new KeyValue(PCS.layoutYProperty(),R1Label.getLayoutY()));
+        Timeline timeline = new Timeline(keyFrame1);
+        timeline.play();
+        timeline.setOnFinished(e1 -> {
+            PCS.setText(R0.getText());
+            PCS.setLayoutX(R0Label.getLayoutX());
+            PCS.setLayoutY(R0Label.getLayoutY());
+            Timeline timeline1 = new Timeline(keyFrame1);
+            timeline1.play();
+            Integer r0 = Integer.parseInt(R0.getText())+Integer.parseInt(R1.getText());
+            PCS.setText(r0.toString());
+            timeline1.setOnFinished(e2 ->{
+                Timeline timeline2 = new Timeline(keyFrame2);
+                timeline2.play();
+                timeline2.setOnFinished(e3 ->{
+                    Timeline timeline3 = new Timeline(keyFrame3);
+                    timeline3.play();
+                    timeline3.setOnFinished(e -> R0Label.setText(r0.toString()));
+                });
+            });
+        });
+    }
+
+    private void STOPlayer(){
+        PC.setText("104");
+        //AddressingTage("STO");
         outDescription.setText(flagDescription[3]);
         //STO 音频播放控件
         //String sto = getClass().getResource("audio/STO.mp3").toString();
@@ -220,7 +387,35 @@ public class Main extends Application{
             chkLog.setDisable(false);
         });
     }
-    private void JMP(){
+    private void STO(){
+        PCS.setText("30");
+        PCS.setLayoutX(187);
+        PCS.setLayoutY(282);
+        KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),450),new KeyValue(PCS.layoutYProperty(),340));
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutXProperty(),440),new KeyValue(PCS.layoutYProperty(),235));
+        Timeline timeline = new Timeline(keyFrame1);
+        timeline.play();
+        timeline.setOnFinished(e1 -> {
+            Timeline timeline1 = new Timeline(keyFrame1);
+            timeline1.play();
+            timeline1.setOnFinished(e2 ->{
+                Timeline timeline2 = new Timeline(keyFrame2);
+                timeline2.play();
+                timeline2.setOnFinished(e3 ->{
+                    PCS.setText(R2.getText());
+                    PCS.setLayoutX(R2Label.getLayoutX());
+                    PCS.setLayoutY(R2Label.getLayoutY());
+                    Timeline timeline3 = new Timeline(keyFrame2);
+                    timeline3.play();
+                });
+            });
+        });
+
+    }
+
+    private void JMPPlayer(){
+        PC.setText("105");
+        //AddressingTage("JMP");
         outDescription.setText(flagDescription[4]);
         //JMP 音频播放控件
         //String jmp = getClass().getResource("audio/JMP.mp3").toString();
@@ -236,12 +431,20 @@ public class Main extends Application{
             chkLog.setDisable(false);
         });
     }
-    private void ALL(){
-        /*MOV();
-        LAD();
-        ADD();
-        STO();
-        JMP();*/
+    private void JMP(){
+            PCS.setText("101");
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(4),new KeyValue(PCS.layoutYProperty(),PC.getLayoutX()),new KeyValue(PCS.layoutYProperty(),PC.getLayoutY()));
+            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(4), new KeyValue(PCS.layoutYProperty(),596),new KeyValue(PCS.layoutYProperty(),110));
+            Timeline timeline = new Timeline(keyFrame);
+            timeline.play();
+            timeline.setOnFinished(e -> {
+                Timeline timeline1 = new Timeline(keyFrame1);
+                timeline1.play();
+                timeline1.setOnFinished(e1 -> MOV());
+            });
+    }
+
+    private void ALLPlayer(){
         outDescription.setText(flagDescription[5]);
         Media ALL = new Media(getClass().getResource("audio/ALL.mp3").toString());
         ALLPlayer = new MediaPlayer(ALL);
@@ -255,9 +458,33 @@ public class Main extends Application{
             chkLog.setDisable(false);
         });
     }
-    /*public void outputDescription(int index){
-        outDescription.setText(flagDescription[index]);
-    }*/
+    private void ALL() {
+        ALLPlayer();
+        try {
+            for (int i = 1; i < 6; i++) {
+                if (i == 1) {
+                    Common1("MOV");
+                    MOV();
+                    Thread.sleep(12000);
+                } else if (i == 2) {
+                    Common1("LAD");
+                    ADD();
+                } else if (i == 3) {
+                    Common1("ADD");
+                    ADD();
+                } else if (i == 4) {
+                    Common1("STO");
+                    STO();
+                } else if (i == 5) {
+                    Common1("JMP");
+                    JMP();
+                }
+            }
+        }catch (Exception e){
+            outDescription.setText("wait()函数调用失败!!!");
+        }
+    }
+
     private void showCommand(){
         //判断
         try {
@@ -269,32 +496,36 @@ public class Main extends Application{
             R0Label.setText(R0.getText());
             R1Label.setText(R1.getText());
             R2Label.setText(R2.getText());
-        /*startShow.setDisable(true);
-         chkLog.setDisable(true);*/
+
             //检查执行的到底是哪一条命令
             //一开始忘记加break，佛了
             switch (items.indexOf(selectCommand.getValue())) {
                 case 0:
-                    MOV();
+                    MOVPlayer();
+                    Common("MOV");
                     break;
                 case 1:
-                    LAD();
+                    LADPlayer();
+                    Common("LAD");
                     break;
                 case 2:
-                    ADD();
+                    ADDPlayer();
+                    Common("ADD");
                     break;
                 case 3:
-                    STO();
+                    STOPlayer();
+                    Common("STO");
                     break;
                 case 4:
-                    JMP();
+                    JMPPlayer();
+                    Common("JMP");
                     break;
                 case 5:
+                    ALLPlayer();
                     ALL();
                     break;
             }
-        /*startShow.setDisable(false);
-         hkLog.setDisable(false);*/
+
             //检查复选框状态
             if (chkLog.selectedProperty().getValue()) {
             /*PrintStream print= new PrintStream("./output.txt");//输出到文件
