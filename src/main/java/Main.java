@@ -1,4 +1,3 @@
-import com.sun.istack.internal.NotNull;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -21,45 +20,45 @@ import javafx.animation.*;
 import javafx.util.Duration;
 
 public class Main extends Application{
-    String command1;
-    //åª’ä½“æ’­æ”¾æ§ä»¶
+    private String command1;
+    //Ã½Ìå²¥·Å¿Ø¼ş
     private MediaPlayer MOVPlayer;
     private MediaPlayer LADPlayer;
     private MediaPlayer ADDPlayer;
     private MediaPlayer STOPlayer;
     private MediaPlayer JMPPlayer;
     private MediaPlayer ALLPlayer;
-    private Label PC = new Label("ç¨‹åºè®¡æ•°å™¨");
+    private Label PC = new Label("³ÌĞò¼ÆÊıÆ÷");
     private Label PCS = new Label("");
     private Pane PcShow = new Pane();
-    //åˆ›å»ºcpuå›¾ç‰‡å±•ç¤ºçš„é¢æ¿
+    //´´½¨cpuÍ¼Æ¬Õ¹Ê¾µÄÃæ°å
     private Pane pane = new Pane();
-    //åˆ›å»ºå„å¼label
+    //´´½¨¸÷Ê½label
     private Label R0Label = new Label("R0");
     private Label R1Label = new Label("R1");
     private Label R2Label = new Label("R2");
     private Label cache30 = new Label("40");
-    //åˆ›å»ºç»„åˆæ¡†
-    private String[] command = {"MOV", "LAD", "ADD", "STO", "JMP", "æ±‡ç¼–æ¼”ç¤º"};
-    //åˆ›å»ºR0ï¼ŒR1ï¼ŒR3æ–‡æœ¬è¾“å…¥æ¡†
+    //´´½¨×éºÏ¿ò
+    private String[] command = {"MOV", "LAD", "ADD", "STO", "JMP", "»ã±àÑİÊ¾"};
+    //´´½¨R0£¬R1£¬R3ÎÄ±¾ÊäÈë¿ò
     private TextField R0 = new TextField();
     private TextField R1 = new TextField();
     private TextField R2 = new TextField();
-    //å¤é€‰æ¡†
-    private CheckBox chkLog = new CheckBox("è®°å½•æ—¥å¿—");
-    //æ·»åŠ è¾“å‡ºæ–‡æœ¬åŸŸ
+    //¸´Ñ¡¿ò
+    private CheckBox chkLog = new CheckBox("¼ÇÂ¼ÈÕÖ¾");
+    //Ìí¼ÓÊä³öÎÄ±¾Óò
     private TextArea outDescription = new TextArea();
-    //åˆ›å»ºå¼€å§‹æŒ‰é’®
-    private Button startShow = new Button("å¼€å§‹");
-    //åˆ›å»ºæŒ‡ä»¤æ–‡å­—æç¤º
+    //´´½¨¿ªÊ¼°´Å¥
+    private Button startShow = new Button("¿ªÊ¼");
+    //´´½¨Ö¸ÁîÎÄ×ÖÌáÊ¾
     private String[] flagDescription = new String[6];
     private ObservableList<String> items =
             FXCollections.observableArrayList(command);
-    //åˆ›å»ºç»„åˆæ¡†å¹¶è®¾ç½®åˆå§‹å€¼ä¸º  MOV
+    //´´½¨×éºÏ¿ò²¢ÉèÖÃ³õÊ¼ÖµÎª  MOV
     private ComboBox<String> selectCommand = new ComboBox<>();
     @Override
     public void start(Stage primaryStage){
-        BorderPane borderPane = new BorderPane();//ä¸»é¢æ¿
+        BorderPane borderPane = new BorderPane();//Ö÷Ãæ°å
         //left
         String cpuImagePath = getClass().getResource("images/cpu.png").toString();
         Image cpuPng = new Image(cpuImagePath);
@@ -72,11 +71,11 @@ public class Main extends Application{
         selectCommand.getItems().addAll(items);
         selectCommand.setValue("MOV");
         //PcShow.setMaxSize(10,2);
-        //è®¾ç½®è¾“å…¥æ¡†å®½åº¦
+        //ÉèÖÃÊäÈë¿ò¿í¶È
         R0.setPrefWidth(160);
         R1.setPrefWidth(160);
         R2.setPrefWidth(160);
-        //å‘CtrlGRidPaneé‡Œé¢æ·»åŠ å…ƒç´ 
+        //ÏòCtrlGRidPaneÀïÃæÌí¼ÓÔªËØ
         ctrlGridPane.add(new Label("R0:"),0,0);
         ctrlGridPane.add(R0,1,0);
         ctrlGridPane.add(new Label("R1:"),2,0);
@@ -85,7 +84,7 @@ public class Main extends Application{
         ctrlGridPane.add(R2,5,0);
         ctrlGridPane.add(selectCommand,6,0);
         ctrlGridPane.add(startShow,7,0);
-        //è®¾ç½®é»˜è®¤ä¸å‹¾é€‰
+        //ÉèÖÃÄ¬ÈÏ²»¹´Ñ¡
         chkLog.setSelected(false);
         ctrlGridPane.add(chkLog,8,0);
 
@@ -93,37 +92,37 @@ public class Main extends Application{
         outDescription.setWrapText(true);
         outDescription.setEditable(false);
 
-        flagDescription[0] = "MOVæŒ‡ä»¤\n" +
-                "  å–æŒ‡é˜¶æ®µï¼š\n" +
-                "    ç¨‹åºè®¡æ•°å™¨PCè£…å…¥ç¬¬ä¸€æ¡æŒ‡ä»¤çš„åœ°å€101ï¼ŒPCçš„å†…å®¹è¢«æ”¾åˆ°æŒ‡ä»¤åœ°å€æ€»çº¿ä¸Šï¼Œå¯¹æŒ‡ä»¤è¿›è¡Œè¯‘ç å¹¶å¯åŠ¨è¯»å‘½ä»¤ã€‚ä»101å·åœ°å€è¯»å‡ºMOVæŒ‡ä»¤ï¼Œé€šè¿‡æŒ‡ä»¤æ€»çº¿IBusè£…å…¥æŒ‡ä»¤å¯„å­˜å™¨IRï¼Œç¨‹åºè®¡æ•°å™¨PCå†…å®¹åŠ 1ï¼Œå˜æˆ102ï¼Œä¸ºä¸‹ä¸€æ¡æŒ‡ä»¤åšå¥½å‡†å¤‡ã€‚æŒ‡ä»¤å¯„å­˜å™¨IRä¸­çš„æ“ä½œç è¢«è¯‘ç ï¼ŒCPUè¯†åˆ«å‡ºæ˜¯MOVæŒ‡ä»¤ï¼Œè‡³æ­¤å–æŒ‡é˜¶æ®µå®Œæˆã€‚\n" +
-                "  æ‰§è¡Œé˜¶æ®µï¼š\n" +
-                //"    æ“ä½œæ§åˆ¶å™¨OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°é€šç”¨å¯„å­˜å™¨ï¼Œé€‰æ‹©R1ï¼ˆ10ï¼‰ä¸ºæºå¯„å­˜å™¨ï¼ŒROï¼ˆ00ï¼‰ä¸ºç›®æ ‡å¯„å­˜å™¨ã€‚OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°ALUï¼ŒæŒ‡å®šALUåšä¼ é€æ“ä½œï¼Œæ‰“å¼€ALUè¾“å‡ºä¸‰æ€é—¨ï¼Œå°†ALUè¾“å‡ºï¼ˆ10ï¼‰é€çš„æ•°æ®æ€»çº¿DBusä¸Šï¼Œä»»ä½•æ—¶åˆ»DBusä¸Šåªèƒ½æœ‰ä¸€ä¸ªæ•°æ®ã€‚å°†DBusä¸Šçš„æ•°æ®æ‰“å…¥æ•°æ®ç¼“å†²å¯„å­˜å™¨DRï¼Œå°†DRä¸­çš„æ•°æ®æ‰“å…¥ç›®æ ‡å¯„å­˜å™¨ROï¼ŒROçš„å†…å®¹ç”±00å˜ä¸º10è‡³æ­¤MOVæŒ‡ä»¤æ‰§è¡Œå®Œæ¯•ã€‚";
-                "    æ“ä½œæ§åˆ¶å™¨OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°é€šç”¨å¯„å­˜å™¨ï¼Œé€‰æ‹©R1ä¸ºæºå¯„å­˜å™¨ï¼ŒROä¸ºç›®æ ‡å¯„å­˜å™¨ã€‚OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°ALUï¼ŒæŒ‡å®šALUåšä¼ é€æ“ä½œï¼Œæ‰“å¼€ALUè¾“å‡ºä¸‰æ€é—¨ï¼Œå°†ALUè¾“å‡ºé€çš„æ•°æ®æ€»çº¿DBusä¸Šï¼Œä»»ä½•æ—¶åˆ»DBusä¸Šåªèƒ½æœ‰ä¸€ä¸ªæ•°æ®ã€‚å°†DBusä¸Šçš„æ•°æ®æ‰“å…¥æ•°æ®ç¼“å†²å¯„å­˜å™¨DRï¼Œå°†DRä¸­çš„æ•°æ®æ‰“å…¥ç›®æ ‡å¯„å­˜å™¨ROï¼ŒROçš„å†…å®¹å˜ä¸ºR1ä¸­çš„æ•°æ®è‡³æ­¤MOVæŒ‡ä»¤æ‰§è¡Œå®Œæ¯•ã€‚\n";
-        flagDescription[1] = "LADæŒ‡ä»¤\n" +
-                "  å–æŒ‡é˜¶æ®µï¼š\n" +
-                "    LADæŒ‡ä»¤çš„å–æŒ‡é˜¶æ®µå’ŒMOVæŒ‡ä»¤å®Œå…¨ç›¸åŒã€‚\n" +
-                "  æ‰§è¡Œé˜¶æ®µï¼š\n" +
-                "    OCå‘å‡ºæ§åˆ¶å‘½ä»¤ï¼Œæ‰“å¼€IRè¾“å‡ºä¸‰æ€é—¨ï¼Œå°†æŒ‡ä»¤ä¸­çš„ç›´æ¥åœ°å€ç 6æ”¾åˆ°æ•°æ®æ€»çº¿DBusä¸Šï¼Œè£…å…¥åœ°å€å¯„å­˜å™¨ARï¼Œå°†æ•°å­˜6å·å•å…ƒä¸­çš„æ•°è¯»å‡ºåˆ°DBusä¸Šï¼Œè£…å…¥ç¼“å†²å¯„å­˜å™¨DRã€‚å°†DRä¸­çš„æ•° è£…å…¥é€šç”¨å¯„å­˜å™¨R1ï¼ŒåŸæ¥R1ä¸­çš„å€¼è¢«è¦†ç›–ï¼Œè‡³æ­¤LADæŒ‡ä»¤æ‰§è¡Œå®Œæ¯•ã€‚\n";
-        flagDescription[2] = "ADDæŒ‡ä»¤\n" +
-                "  å–æŒ‡é˜¶æ®µï¼š\n" +
-                "    ADDæŒ‡ä»¤çš„å–æŒ‡é˜¶æ®µå’Œå…¶ä»–æŒ‡ä»¤ç›¸åŒã€‚\n" +
-                "  æ‰§è¡Œé˜¶æ®µï¼š\n" +
-                "    æ“ä½œæ§åˆ¶å™¨OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°é€šç”¨å¯„å­˜å™¨ï¼Œé€‰æ‹©R1ä¸ºæºå¯„å­˜å™¨ï¼ŒR2ä¸ºç›®æ ‡å¯„å­˜å™¨ã€‚ALUåšR1å’ŒR2çš„åŠ æ³•è¿ç®—ï¼Œæ‰“å¼€ALUè¾“å‡ºä¸‰æ€é—¨ï¼Œå°†è¿ç®—ç»“æœæ”¾åˆ°æ•°æ®æ€»çº¿DBusä¸Šï¼Œç„¶åæ‰“å…¥ç¼“å†²å¯„å­˜å™¨DRã€‚ALUäº§ç”Ÿçš„è¿›ä½ä¿¡å·ä¿å­˜åœ¨çŠ¶æ€å­—å¯„å­˜å™¨PSWä¸­ï¼Œå°†DRä¸­æ•°å€¼è£…å…¥R2ä¸­ï¼ŒR2åŸæ¥çš„æ•°è¢«è¦†ç›–ã€‚åˆ°æ­¤ADDæŒ‡ä»¤æ‰§è¡Œç»“æŸã€‚\n";
-        flagDescription[3] = "STOæŒ‡ä»¤\n" +
-                "  å–æŒ‡é˜¶æ®µï¼š\n" +
-                "        STOæŒ‡ä»¤çš„å–æŒ‡é˜¶æ®µå’Œå…¶ä»–æŒ‡ä»¤ç›¸åŒã€‚\n" +
-                "  æ‰§è¡Œé˜¶æ®µï¼š\n" +
-                "        æ“ä½œæ§åˆ¶å™¨OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°é€šç”¨å¯„å­˜å™¨ï¼Œé€‰æ‹©R3ï¼ˆ30ï¼‰ä½œä¸ºæ•°æ®å­˜å‚¨å™¨çš„åœ°å€ã€‚æ‰“å¼€é€šç”¨å¯„å­˜å™¨è¾“å‡ºä¸‰æ€é—¨ï¼Œå°†åœ°å€30æ”¾åˆ°DBusä¸Šå¹¶è£…å…¥åœ°å€å¯„å­˜å™¨ARï¼Œå¹¶è¿›è¡Œåœ°å€è¯‘ç ã€‚æ“ä½œæ§åˆ¶å™¨OCé€å‡ºæ§åˆ¶ä¿¡å·åˆ°é€šç”¨å¯„å­˜å™¨ï¼Œé€‰æ‹©R2ä¸­æ•°æ®ä½œä¸ºæ•°å­˜çš„å†™å…¥æ•°æ®æ”¾åˆ°DBusä¸Šã€‚å°†æ­¤æ•°å€¼å†™å…¥æ•°å­˜30å•å…ƒï¼ŒåŸå…ˆçš„æ•°æ®è¢«å†²æ‰ã€‚è‡³æ­¤STOæŒ‡ä»¤æ‰§è¡Œç»“æŸã€‚\n";
-        flagDescription[4] = "JMPæŒ‡ä»¤\n" +
-                "    å–æŒ‡é˜¶æ®µï¼š\n" +
-                "        JMPæŒ‡ä»¤çš„å–æŒ‡å‘¨æœŸå’Œå…¶ä»–æŒ‡ä»¤ç›¸åŒã€‚\n" +
-                "    æ‰§è¡Œé˜¶æ®µï¼š\n" +
-                "        OCå‘å‡ºæ§åˆ¶å‘½ä»¤ï¼Œæ‰“å¼€IRè¾“å‡ºä¸‰æ€é—¨ï¼Œå°†IRä¸­çš„åœ°å€ç 101å‘é€åˆ°DBusä¸Šï¼Œå°†DBusä¸Šçš„åœ°å€ç 101æ‰“å…¥åˆ°ç¨‹åºè®¡æ•°å™¨PCä¸­ï¼ŒPCä¸­åŸå…ˆçš„åœ°å€106è¢«æ›´æ¢ã€‚äºæ˜¯ä¸‹ä¸€æ¡æŒ‡ä»¤ä¸æ˜¯ä»106å•å…ƒå–å‡ºï¼Œè€Œæ˜¯è½¬ç§»åˆ°101å•å…ƒå–å‡ºã€‚è‡³æ­¤JMPæŒ‡ä»¤æ‰§è¡Œå‘¨æœŸç»“æŸã€‚\n";
+        flagDescription[0] = "MOVÖ¸Áî\n" +
+                "  È¡Ö¸½×¶Î£º\n" +
+                "    ³ÌĞò¼ÆÊıÆ÷PC×°ÈëµÚÒ»ÌõÖ¸ÁîµÄµØÖ·101£¬PCµÄÄÚÈİ±»·Åµ½Ö¸ÁîµØÖ·×ÜÏßÉÏ£¬¶ÔÖ¸Áî½øĞĞÒëÂë²¢Æô¶¯¶ÁÃüÁî¡£´Ó101ºÅµØÖ·¶Á³öMOVÖ¸Áî£¬Í¨¹ıÖ¸Áî×ÜÏßIBus×°ÈëÖ¸Áî¼Ä´æÆ÷IR£¬³ÌĞò¼ÆÊıÆ÷PCÄÚÈİ¼Ó1£¬±ä³É102£¬ÎªÏÂÒ»ÌõÖ¸Áî×öºÃ×¼±¸¡£Ö¸Áî¼Ä´æÆ÷IRÖĞµÄ²Ù×÷Âë±»ÒëÂë£¬CPUÊ¶±ğ³öÊÇMOVÖ¸Áî£¬ÖÁ´ËÈ¡Ö¸½×¶ÎÍê³É¡£\n" +
+                "  Ö´ĞĞ½×¶Î£º\n" +
+                //"    ²Ù×÷¿ØÖÆÆ÷OCËÍ³ö¿ØÖÆĞÅºÅµ½Í¨ÓÃ¼Ä´æÆ÷£¬Ñ¡ÔñR1£¨10£©ÎªÔ´¼Ä´æÆ÷£¬RO£¨00£©ÎªÄ¿±ê¼Ä´æÆ÷¡£OCËÍ³ö¿ØÖÆĞÅºÅµ½ALU£¬Ö¸¶¨ALU×ö´«ËÍ²Ù×÷£¬´ò¿ªALUÊä³öÈıÌ¬ÃÅ£¬½«ALUÊä³ö£¨10£©ËÍµÄÊı¾İ×ÜÏßDBusÉÏ£¬ÈÎºÎÊ±¿ÌDBusÉÏÖ»ÄÜÓĞÒ»¸öÊı¾İ¡£½«DBusÉÏµÄÊı¾İ´òÈëÊı¾İ»º³å¼Ä´æÆ÷DR£¬½«DRÖĞµÄÊı¾İ´òÈëÄ¿±ê¼Ä´æÆ÷RO£¬ROµÄÄÚÈİÓÉ00±äÎª10ÖÁ´ËMOVÖ¸ÁîÖ´ĞĞÍê±Ï¡£";
+                "    ²Ù×÷¿ØÖÆÆ÷OCËÍ³ö¿ØÖÆĞÅºÅµ½Í¨ÓÃ¼Ä´æÆ÷£¬Ñ¡ÔñR1ÎªÔ´¼Ä´æÆ÷£¬ROÎªÄ¿±ê¼Ä´æÆ÷¡£OCËÍ³ö¿ØÖÆĞÅºÅµ½ALU£¬Ö¸¶¨ALU×ö´«ËÍ²Ù×÷£¬´ò¿ªALUÊä³öÈıÌ¬ÃÅ£¬½«ALUÊä³öËÍµÄÊı¾İ×ÜÏßDBusÉÏ£¬ÈÎºÎÊ±¿ÌDBusÉÏÖ»ÄÜÓĞÒ»¸öÊı¾İ¡£½«DBusÉÏµÄÊı¾İ´òÈëÊı¾İ»º³å¼Ä´æÆ÷DR£¬½«DRÖĞµÄÊı¾İ´òÈëÄ¿±ê¼Ä´æÆ÷RO£¬ROµÄÄÚÈİ±äÎªR1ÖĞµÄÊı¾İÖÁ´ËMOVÖ¸ÁîÖ´ĞĞÍê±Ï¡£\n";
+        flagDescription[1] = "LADÖ¸Áî\n" +
+                "  È¡Ö¸½×¶Î£º\n" +
+                "    LADÖ¸ÁîµÄÈ¡Ö¸½×¶ÎºÍMOVÖ¸ÁîÍêÈ«ÏàÍ¬¡£\n" +
+                "  Ö´ĞĞ½×¶Î£º\n" +
+                "    OC·¢³ö¿ØÖÆÃüÁî£¬´ò¿ªIRÊä³öÈıÌ¬ÃÅ£¬½«Ö¸ÁîÖĞµÄÖ±½ÓµØÖ·Âë6·Åµ½Êı¾İ×ÜÏßDBusÉÏ£¬×°ÈëµØÖ·¼Ä´æÆ÷AR£¬½«Êı´æ6ºÅµ¥ÔªÖĞµÄÊı¶Á³öµ½DBusÉÏ£¬×°Èë»º³å¼Ä´æÆ÷DR¡£½«DRÖĞµÄÊı ×°ÈëÍ¨ÓÃ¼Ä´æÆ÷R1£¬Ô­À´R1ÖĞµÄÖµ±»¸²¸Ç£¬ÖÁ´ËLADÖ¸ÁîÖ´ĞĞÍê±Ï¡£\n";
+        flagDescription[2] = "ADDÖ¸Áî\n" +
+                "  È¡Ö¸½×¶Î£º\n" +
+                "    ADDÖ¸ÁîµÄÈ¡Ö¸½×¶ÎºÍÆäËûÖ¸ÁîÏàÍ¬¡£\n" +
+                "  Ö´ĞĞ½×¶Î£º\n" +
+                "    ²Ù×÷¿ØÖÆÆ÷OCËÍ³ö¿ØÖÆĞÅºÅµ½Í¨ÓÃ¼Ä´æÆ÷£¬Ñ¡ÔñR1ÎªÔ´¼Ä´æÆ÷£¬R2ÎªÄ¿±ê¼Ä´æÆ÷¡£ALU×öR1ºÍR2µÄ¼Ó·¨ÔËËã£¬´ò¿ªALUÊä³öÈıÌ¬ÃÅ£¬½«ÔËËã½á¹û·Åµ½Êı¾İ×ÜÏßDBusÉÏ£¬È»ºó´òÈë»º³å¼Ä´æÆ÷DR¡£ALU²úÉúµÄ½øÎ»ĞÅºÅ±£´æÔÚ×´Ì¬×Ö¼Ä´æÆ÷PSWÖĞ£¬½«DRÖĞÊıÖµ×°ÈëR2ÖĞ£¬R2Ô­À´µÄÊı±»¸²¸Ç¡£µ½´ËADDÖ¸ÁîÖ´ĞĞ½áÊø¡£\n";
+        flagDescription[3] = "STOÖ¸Áî\n" +
+                "  È¡Ö¸½×¶Î£º\n" +
+                "        STOÖ¸ÁîµÄÈ¡Ö¸½×¶ÎºÍÆäËûÖ¸ÁîÏàÍ¬¡£\n" +
+                "  Ö´ĞĞ½×¶Î£º\n" +
+                "        ²Ù×÷¿ØÖÆÆ÷OCËÍ³ö¿ØÖÆĞÅºÅµ½Í¨ÓÃ¼Ä´æÆ÷£¬Ñ¡ÔñR3£¨30£©×÷ÎªÊı¾İ´æ´¢Æ÷µÄµØÖ·¡£´ò¿ªÍ¨ÓÃ¼Ä´æÆ÷Êä³öÈıÌ¬ÃÅ£¬½«µØÖ·30·Åµ½DBusÉÏ²¢×°ÈëµØÖ·¼Ä´æÆ÷AR£¬²¢½øĞĞµØÖ·ÒëÂë¡£²Ù×÷¿ØÖÆÆ÷OCËÍ³ö¿ØÖÆĞÅºÅµ½Í¨ÓÃ¼Ä´æÆ÷£¬Ñ¡ÔñR2ÖĞÊı¾İ×÷ÎªÊı´æµÄĞ´ÈëÊı¾İ·Åµ½DBusÉÏ¡£½«´ËÊıÖµĞ´ÈëÊı´æ30µ¥Ôª£¬Ô­ÏÈµÄÊı¾İ±»³åµô¡£ÖÁ´ËSTOÖ¸ÁîÖ´ĞĞ½áÊø¡£\n";
+        flagDescription[4] = "JMPÖ¸Áî\n" +
+                "    È¡Ö¸½×¶Î£º\n" +
+                "        JMPÖ¸ÁîµÄÈ¡Ö¸ÖÜÆÚºÍÆäËûÖ¸ÁîÏàÍ¬¡£\n" +
+                "    Ö´ĞĞ½×¶Î£º\n" +
+                "        OC·¢³ö¿ØÖÆÃüÁî£¬´ò¿ªIRÊä³öÈıÌ¬ÃÅ£¬½«IRÖĞµÄµØÖ·Âë101·¢ËÍµ½DBusÉÏ£¬½«DBusÉÏµÄµØÖ·Âë101´òÈëµ½³ÌĞò¼ÆÊıÆ÷PCÖĞ£¬PCÖĞÔ­ÏÈµÄµØÖ·106±»¸ü»»¡£ÓÚÊÇÏÂÒ»ÌõÖ¸Áî²»ÊÇ´Ó106µ¥ÔªÈ¡³ö£¬¶øÊÇ×ªÒÆµ½101µ¥ÔªÈ¡³ö¡£ÖÁ´ËJMPÖ¸ÁîÖ´ĞĞÖÜÆÚ½áÊø¡£\n";
         flagDescription[5] = flagDescription[0] + flagDescription[1] + flagDescription[2] + flagDescription[3] + flagDescription[4];
         startShow.setOnAction(e -> {
             showCommand();
         });
-        //å¸ƒå±€è®¾ç½®
+        //²¼¾ÖÉèÖÃ
         cache30.setLayoutX(454);
         cache30.setLayoutY(230);
 
@@ -142,7 +141,7 @@ public class Main extends Application{
         borderPane.setBottom(outDescription);
 
         Scene scene = new Scene(borderPane);
-        primaryStage.setTitle("è®¡ç®—æœºç»„æˆåŸç†CPUæŒ‡ä»¤æ‰§è¡Œæ¼”ç¤ºç¨‹åº ");
+        primaryStage.setTitle("¼ÆËã»ú×é³ÉÔ­ÀíCPUÖ¸ÁîÖ´ĞĞÑİÊ¾³ÌĞò ");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -158,14 +157,14 @@ public class Main extends Application{
         path.getElements().add(new HLineTo(642));
         path.getElements().add(new VLineTo(536));
         PathTransition pt=new PathTransition();
-        pt.setDuration(Duration.seconds(10));//è®¾ç½®æŒç»­æ—¶é—´10ç§’
-        pt.setPath(path);//è®¾ç½®è·¯å¾„
-        pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
-        //å–å€é˜¶æ®µ
-        pt.play();//å¯åŠ¨åŠ¨ç”»
+        pt.setDuration(Duration.seconds(10));//ÉèÖÃ³ÖĞøÊ±¼ä10Ãë
+        pt.setPath(path);//ÉèÖÃÂ·¾¶
+        pt.setNode(PcShow);//ÉèÖÃÎïÌå
+        //È¡Ö·½×¶Î
+        pt.play();//Æô¶¯¶¯»­
         pt.setOnFinished(e -> {
-            PcsSetText("");//å½“å–å€é˜¶æ®µå®Œæˆæ—¶ï¼Œé‡ç½®PCSæ ‡ç­¾é‡Œé¢çš„æ–‡å­—
-            //æ‰§è¡Œé˜¶æ®µ
+            PcsSetText("");//µ±È¡Ö·½×¶ÎÍê³ÉÊ±£¬ÖØÖÃPCS±êÇ©ÀïÃæµÄÎÄ×Ö
+            //Ö´ĞĞ½×¶Î
             switch (command) {
                 case "MOV":
                     MOV();
@@ -188,9 +187,9 @@ public class Main extends Application{
 
     private void MOVPlayer() {
         PC.setText("101");
-        //è¾“å‡ºæ–‡å­—æè¿°
+        //Êä³öÎÄ×ÖÃèÊö
         outDescription.setText(flagDescription[0]);
-        //MOV éŸ³é¢‘æ’­æ”¾æ§ä»¶
+        //MOV ÒôÆµ²¥·Å¿Ø¼ş
         MOVPlayer = new MediaPlayer(new Media(getClass().getResource("audio/MOV.mp3").toString()));
         MOVPlayer.setOnReady(() -> {
             startShow.setDisable(true);
@@ -214,10 +213,10 @@ public class Main extends Application{
         path.getElements().add(new HLineTo(180));
         path.getElements().add(new VLineTo(R0Label.getLayoutY()));
         PathTransition pt=new PathTransition();
-        pt.setDuration(Duration.seconds(35));//è®¾ç½®æŒç»­æ—¶é—´20ç§’
-        pt.setPath(path);//è®¾ç½®è·¯å¾„
-        pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
-        pt.play();//å¯åŠ¨åŠ¨ç”»
+        pt.setDuration(Duration.seconds(35));//ÉèÖÃ³ÖĞøÊ±¼ä20Ãë
+        pt.setPath(path);//ÉèÖÃÂ·¾¶
+        pt.setNode(PcShow);//ÉèÖÃÎïÌå
+        pt.play();//Æô¶¯¶¯»­
         PcSetText("102");
         pt.setOnFinished(e -> {
             R0LabelText(R1.getText());
@@ -227,7 +226,7 @@ public class Main extends Application{
 
     private void LADPlayer(){
         outDescription.setText(flagDescription[1]);
-        //LAD éŸ³é¢‘æ’­æ”¾æ§ä»¶
+        //LAD ÒôÆµ²¥·Å¿Ø¼ş
         LADPlayer = new MediaPlayer(new Media(getClass().getResource("audio/LAD.mp3").toString()));
         LADPlayer.setOnReady(()->{
             startShow.setDisable(true);
@@ -256,14 +255,14 @@ public class Main extends Application{
         path1.getElements().add(new VLineTo(R1Label.getLayoutY()));
         PathTransition pt=new PathTransition();
         PathTransition pt1=new PathTransition();
-        pt.setDuration(Duration.seconds(11));//è®¾ç½®æŒç»­æ—¶é—´11ç§’
-        pt.setPath(path);//è®¾ç½®è·¯å¾„
-        pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt.setDuration(Duration.seconds(11));//ÉèÖÃ³ÖĞøÊ±¼ä11Ãë
+        pt.setPath(path);//ÉèÖÃÂ·¾¶
+        pt.setNode(PcShow);//ÉèÖÃÎïÌå
 
-        pt1.setDuration(Duration.seconds(10));//è®¾ç½®æŒç»­æ—¶é—´11ç§’
-        pt1.setPath(path1);//è®¾ç½®è·¯å¾„
-        pt1.setNode(PcShow);//è®¾ç½®ç‰©ä½“
-        pt.play();//å¯åŠ¨åŠ¨ç”»
+        pt1.setDuration(Duration.seconds(10));//ÉèÖÃ³ÖĞøÊ±¼ä11Ãë
+        pt1.setPath(path1);//ÉèÖÃÂ·¾¶
+        pt1.setNode(PcShow);//ÉèÖÃÎïÌå
+        pt.play();//Æô¶¯¶¯»­
         PcSetText("103");
         pt.setOnFinished(e -> {
             PcsSetText("100");
@@ -278,7 +277,7 @@ public class Main extends Application{
 
     private void ADDPlayer(){
         outDescription.setText(flagDescription[2]);
-        //ADD éŸ³é¢‘æ’­æ”¾æ§ä»¶
+        //ADD ÒôÆµ²¥·Å¿Ø¼ş
         ADDPlayer = new MediaPlayer(new Media(getClass().getResource("audio/ADD.mp3").toString()));
         ADDPlayer.setOnReady(()->{
             startShow.setDisable(true);
@@ -311,19 +310,19 @@ public class Main extends Application{
         path2.getElements().add(new VLineTo(R2Label.getLayoutY()));
 
         PathTransition pt=new PathTransition();
-        pt.setDuration(Duration.seconds(3));//è®¾ç½®æŒç»­æ—¶é—´20ç§’
-        pt.setPath(path);//è®¾ç½®è·¯å¾„
-        pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt.setDuration(Duration.seconds(3));//ÉèÖÃ³ÖĞøÊ±¼ä20Ãë
+        pt.setPath(path);//ÉèÖÃÂ·¾¶
+        pt.setNode(PcShow);//ÉèÖÃÎïÌå
 
         PathTransition pt1=new PathTransition();
-        pt1.setDuration(Duration.seconds(4));//è®¾ç½®æŒç»­æ—¶é—´20ç§’
-        pt1.setPath(path1);//è®¾ç½®è·¯å¾„
-        pt1.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt1.setDuration(Duration.seconds(4));//ÉèÖÃ³ÖĞøÊ±¼ä20Ãë
+        pt1.setPath(path1);//ÉèÖÃÂ·¾¶
+        pt1.setNode(PcShow);//ÉèÖÃÎïÌå
 
         PathTransition pt2=new PathTransition();
-        pt2.setDuration(Duration.seconds(12));//è®¾ç½®æŒç»­æ—¶é—´20ç§’
-        pt2.setPath(path2);//è®¾ç½®è·¯å¾„
-        pt2.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt2.setDuration(Duration.seconds(12));//ÉèÖÃ³ÖĞøÊ±¼ä20Ãë
+        pt2.setPath(path2);//ÉèÖÃÂ·¾¶
+        pt2.setNode(PcShow);//ÉèÖÃÎïÌå
 
         pt.play();
         PcSetText("104");
@@ -347,7 +346,7 @@ public class Main extends Application{
     }
     private void STOPlayer(){
         outDescription.setText(flagDescription[3]);
-        //STO éŸ³é¢‘æ’­æ”¾æ§ä»¶
+        //STO ÒôÆµ²¥·Å¿Ø¼ş
         STOPlayer = new MediaPlayer(new Media(getClass().getResource("audio/STO.mp3").toString()));
         STOPlayer.setOnReady(()->{
             startShow.setDisable(true);
@@ -370,9 +369,9 @@ public class Main extends Application{
         path.getElements().add(new HLineTo(446));
         path.getElements().add(new LineTo(390,229));
         PathTransition pt=new PathTransition();
-        pt.setDuration(Duration.seconds(9));//è®¾ç½®æŒç»­æ—¶é—´11ç§’
-        pt.setPath(path);//è®¾ç½®è·¯å¾„
-        pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt.setDuration(Duration.seconds(9));//ÉèÖÃ³ÖĞøÊ±¼ä11Ãë
+        pt.setPath(path);//ÉèÖÃÂ·¾¶
+        pt.setNode(PcShow);//ÉèÖÃÎïÌå
 
         Path path1 = new Path();
         path1.getElements().add(new MoveTo(R2Label.getLayoutX(),R2Label.getLayoutY()));
@@ -382,9 +381,9 @@ public class Main extends Application{
         path1.getElements().add(new HLineTo(446));
         path1.getElements().add(new VLineTo(232));
         PathTransition pt1=new PathTransition();
-        pt1.setDuration(Duration.millis(10000));//è®¾ç½®æŒç»­æ—¶é—´11ç§’
-        pt1.setPath(path1);//è®¾ç½®è·¯å¾„
-        pt1.setNode(PcShow);//è®¾ç½®ç‰©ä½“
+        pt1.setDuration(Duration.millis(10000));//ÉèÖÃ³ÖĞøÊ±¼ä11Ãë
+        pt1.setPath(path1);//ÉèÖÃÂ·¾¶
+        pt1.setNode(PcShow);//ÉèÖÃÎïÌå
 
         pt.play();
         PcSetText("105");
@@ -406,7 +405,7 @@ public class Main extends Application{
         PcSetText("105");
         //PC.setText("105");
         outDescription.setText(flagDescription[4]);
-        //JMP éŸ³é¢‘æ’­æ”¾æ§ä»¶
+        //JMP ÒôÆµ²¥·Å¿Ø¼ş
         JMPPlayer = new MediaPlayer(new Media(getClass().getResource("audio/JMP.mp3").toString()));
         JMPPlayer.setOnReady(()->{
             startShow.setDisable(true);
@@ -427,10 +426,10 @@ public class Main extends Application{
             path.getElements().add(new HLineTo(PC.getLayoutX()));
             path.getElements().add(new VLineTo(PC.getLayoutY()));
             PathTransition pt=new PathTransition();
-            pt.setDuration(Duration.seconds(8));//è®¾ç½®æŒç»­æ—¶é—´8ç§’
-            pt.setPath(path);//è®¾ç½®è·¯å¾„
-            pt.setNode(PcShow);//è®¾ç½®ç‰©ä½“
-            pt.play();//å¯åŠ¨åŠ¨ç”»
+            pt.setDuration(Duration.seconds(8));//ÉèÖÃ³ÖĞøÊ±¼ä8Ãë
+            pt.setPath(path);//ÉèÖÃÂ·¾¶
+            pt.setNode(PcShow);//ÉèÖÃÎïÌå
+            pt.play();//Æô¶¯¶¯»­
         pt.setOnFinished(event -> {
             PcSetText("101");
             //PC.setText("101");
@@ -487,7 +486,7 @@ public class Main extends Application{
         },198000);
 };
     private void showCommand(){
-        //åˆ¤æ–­
+        //ÅĞ¶Ï
         try {
             int r0 = Integer.parseInt(R0.getText());
             int r1 = Integer.parseInt(R1.getText());
@@ -498,8 +497,8 @@ public class Main extends Application{
             R1Label.setText(R1.getText());
             R2Label.setText(R2.getText());
 
-            //æ£€æŸ¥æ‰§è¡Œçš„åˆ°åº•æ˜¯å“ªä¸€æ¡å‘½ä»¤
-            //ä¸€å¼€å§‹å¿˜è®°åŠ breakï¼Œä½›äº†
+            //¼ì²éÖ´ĞĞµÄµ½µ×ÊÇÄÄÒ»ÌõÃüÁî
+            //Ò»¿ªÊ¼Íü¼Ç¼Óbreak£¬·ğÁË
             switch (items.indexOf(selectCommand.getValue())) {
                 case 0:
                     MOVPlayer();
@@ -526,20 +525,20 @@ public class Main extends Application{
                     ALL();
                     break;
             }
-            //æ£€æŸ¥å¤é€‰æ¡†çŠ¶æ€
+            //¼ì²é¸´Ñ¡¿ò×´Ì¬
             if (chkLog.selectedProperty().getValue()) {
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//è®¾ç½®æ—¥æœŸæ ¼å¼
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//ÉèÖÃÈÕÆÚ¸ñÊ½
                 String text = "=================================\n"
-                        + "å½“å‰æ—¶é—´: " + df.format(new Date())
+                        + "µ±Ç°Ê±¼ä: " + df.format(new Date())
                         + "\nR0: " + R0.getText() + " R1: " + R1.getText() + " R2: " + R2.getText()
-                        + "\nå½“å‰æ‰§è¡Œçš„å‘½ä»¤: " + selectCommand.getValue() + "\nå¤é€‰æ¡†çŠ¶æ€: " + chkLog.selectedProperty().getValue() + "\n";
+                        + "\nµ±Ç°Ö´ĞĞµÄÃüÁî: " + selectCommand.getValue() + "\n¸´Ñ¡¿ò×´Ì¬: " + chkLog.selectedProperty().getValue() + "\n";
                 Write write = new Write();
                 write.write(text, "./output.txt");
             }
             System.out.println("Happy Ending!!!");
         }catch (NumberFormatException e) {
             outDescription.setStyle("-fx-text-fill: RED");
-            outDescription.setText("è¯·åœ¨R0,R1,R2ä¸­è¾“å…¥æœ‰æ•ˆæ•°å­—!!!");
+            outDescription.setText("ÇëÔÚR0,R1,R2ÖĞÊäÈëÓĞĞ§Êı×Ö!!!");
             System.out.println("Bad Ending!!!");
         }
     }

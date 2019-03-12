@@ -2,6 +2,9 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'java'
+apply plugin: 'idea'
+
 group 'tw.ccatk'
 version '1.0-SNAPSHOT'
 
@@ -10,7 +13,31 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-
+jar {
+    from {
+        //添加依懒到打包文件
+        //configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect{zipTree(it)}
+    }
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
+}
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+uploadArchives {
+    repositories {
+        flatDir {
+            dirs 'repos'
+        }
+    }
+}
+//uploadArchives task
+uploadArchives{
+    repositories{
+        flatDir{
+            dirs'repos'
+        }
+    }
 }
