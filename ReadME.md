@@ -18,11 +18,31 @@
 2. 工程文件夹（源代码、可执行程序、数据存储文件）
 3. 课程设计报告
 ### 实现方法：
-Keyword：Timeline，~~基于文字生成图片~~
+Keyword：Timeline，多线程，~~基于文字生成图片~~
+
+### 当前进度
+
+* 大部分代码已完成 & 已打包成jar文件
+* 已完成 **MOV,LAD,ADD,STO,JMP指令和汇编语言** 的展示
+* [Jar包下载]()
+
+### 使用方法
+> 软件要求：Windows已安装JDK8，Ubuntu（Linux）已安装openjdk-8-jdk  
+> 其他的版本不做过多解释
+* Windows：下载后双击即可
+* Ubuntu(Linux): 
+```bash
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+#已安装JDK8的话，可以不进行上面两步
+#进入已下载Jar文件的文件夹里
+java -jar cpuShow.jar
+```
 #### 难重点：
 1.	Timeline
 2.	~~基于文字生成图片~~
 3.	固定区域输出提示信息
+4. 多线程处理
 
 ##### CPU指令
 1. MOV指令  

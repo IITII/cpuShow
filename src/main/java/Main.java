@@ -533,7 +533,7 @@ public class Main extends Application{
                         + "\nR0: " + R0.getText() + " R1: " + R1.getText() + " R2: " + R2.getText()
                         + "\n当前执行的命令: " + selectCommand.getValue() + "\n复选框状态: " + chkLog.selectedProperty().getValue() + "\n";
                 Write write = new Write();
-                write.write(text, "./output.txt");
+                write.write(text, "./log.txt");
             }
             System.out.println("Happy Ending!!!");
         }catch (NumberFormatException e) {
