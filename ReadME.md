@@ -22,9 +22,9 @@ Keyword：Timeline，多线程，~~基于文字生成图片~~
 
 ### 当前进度
 
-* 大部分代码已完成 & 已打包成jar文件
+* 大部分代码已完成 & 已打包成jar文件(主要文件只有Main.java和Writer.java)
 * 已完成 **MOV,LAD,ADD,STO,JMP指令和汇编语言** 的展示
-* [Jar包下载]()
+* [Jar包下载](https://github.com/IITII/cpuShow/releases)
 
 ### 使用方法
 > 软件要求：Windows已安装JDK8，Ubuntu（Linux）已安装openjdk-8-jdk  
