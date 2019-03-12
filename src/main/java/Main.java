@@ -1,5 +1,6 @@
 import com.sun.istack.internal.NotNull;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -20,6 +21,7 @@ import javafx.animation.*;
 import javafx.util.Duration;
 
 public class Main extends Application{
+    String command1;
     //媒体播放控件
     private MediaPlayer MOVPlayer;
     private MediaPlayer LADPlayer;
@@ -147,7 +149,8 @@ public class Main extends Application{
 
     }
     private void Common(String command){
-        PCS.setText(command);
+        this.command1 = command;
+        Command1();
         Path path = new Path();
         path.getElements().add(new MoveTo(642,16));
         path.getElements().add(new HLineTo(770));
@@ -161,22 +164,22 @@ public class Main extends Application{
         //取址阶段
         pt.play();//启动动画
         pt.setOnFinished(e -> {
-            PCS.setText("");//当取址阶段完成时，重置PCS标签里面的文字
+            PcsSetText("");//当取址阶段完成时，重置PCS标签里面的文字
             //执行阶段
-            switch (items.indexOf(selectCommand.getValue())) {
-                case 0:
+            switch (command) {
+                case "MOV":
                     MOV();
                     break;
-                case 1:
+                case "LAD":
                     LAD();
                     break;
-                case 2:
+                case "ADD":
                     ADD();
                     break;
-                case 3:
+                case "STO":
                     STO();
                     break;
-                case 4:
+                case "JMP":
                     JMP();
                     break;
             }
@@ -200,7 +203,8 @@ public class Main extends Application{
         });
     }
     private void MOV(){
-        PCS.setText(R1.getText());
+        PcsSetText(R1.getText());
+        //PCS.setText(R1.getText());
         Path path = new Path();
         path.getElements().add(new MoveTo(R1Label.getLayoutX(),R1Label.getLayoutY()));
         path.getElements().add(new VLineTo(84));
@@ -214,10 +218,10 @@ public class Main extends Application{
         pt.setPath(path);//设置路径
         pt.setNode(PcShow);//设置物体
         pt.play();//启动动画
-        PC.setText("102");
+        PcSetText("102");
         pt.setOnFinished(e -> {
-            PCS.setText("");
-            R0Label.setText(R1.getText());
+            R0LabelText(R1.getText());
+            PcsSetText("");
         });
     }
 
@@ -237,7 +241,7 @@ public class Main extends Application{
         });
     }
     private void LAD(){
-        PCS.setText("6");
+        PcsSetText("6");
         Path path = new Path();
         path.getElements().add(new MoveTo(672,512));
         path.getElements().add(new VLineTo(382));
@@ -260,13 +264,14 @@ public class Main extends Application{
         pt1.setPath(path1);//设置路径
         pt1.setNode(PcShow);//设置物体
         pt.play();//启动动画
-        PC.setText("103");
+        PcSetText("103");
         pt.setOnFinished(e -> {
-            PCS.setText("100");
+            PcsSetText("100");
             pt1.play();
             pt1.setOnFinished(e1 -> {
-                R1Label.setText("100");
-                PCS.setText("");
+                R1LabelText("100");
+                //R1Label.setText("100");
+                PcsSetText("");
             });
         });
     }
@@ -286,7 +291,8 @@ public class Main extends Application{
         });
     }
     private void ADD(){
-        PCS.setText(R0.getText());
+        PcsSetText(R0.getText());
+        //PCS.setText(R0.getText());
         Path path = new Path();
         //path.getElements().add();190,205,227,250
         path.getElements().add(new MoveTo(190,205));
@@ -320,16 +326,21 @@ public class Main extends Application{
         pt2.setNode(PcShow);//设置物体
 
         pt.play();
-        PC.setText("104");
+        PcSetText("104");
+        //PC.setText("104");
         pt.setOnFinished(event -> {
             PCS.setText(R1.getText());
             pt1.play();
             pt1.setOnFinished(event1 -> {
-                PCS.setText((Integer.parseInt(R0.getText()) + Integer.parseInt(R1.getText()))+"");
+                //PCS.setText((Integer.parseInt(R0Label.getText()) + Integer.parseInt(R1Label.getText()))+"");
+                String text = Integer.parseInt(R0Label.getText()) + Integer.parseInt(R1Label.getText())+"";
+                PcsSetText(text);
                 pt2.play();
                 pt2.setOnFinished(event2 -> {
-                    R2Label.setText((Integer.parseInt(R0.getText()) + Integer.parseInt(R1.getText()))+"");
-                    PCS.setText("");
+                    R2LabelText(text);
+                    PcsSetText("");
+                    //R2Label.setText((Integer.parseInt(R0Label.getText()) + Integer.parseInt(R1Label.getText()))+"");
+                    //PCS.setText("");
                 });
             });
         });
@@ -349,7 +360,8 @@ public class Main extends Application{
         });
     }
     private void STO(){
-        PCS.setText("30");
+        PcsSetText("30");
+        //PCS.setText("30");
         Path path = new Path();
         path.getElements().add(new MoveTo(185,280));
         path.getElements().add(new LineTo(230,160));
@@ -375,19 +387,24 @@ public class Main extends Application{
         pt1.setNode(PcShow);//设置物体
 
         pt.play();
-        PC.setText("105");
+        PcSetText("105");
+        //PC.setText("105");
         pt.setOnFinished(event -> {
-            PCS.setText(R2Label.getText());
+            PcsSetText(R2Label.getText());
+            //PCS.setText(R2Label.getText());
             pt1.play();
             pt1.setOnFinished(event1 -> {
-                cache30.setText(PCS.getText());
-                PCS.setText("");
+                Cache(PCS.getText());
+                //cache30.setText(PCS.getText());
+                //PCS.setText("");
+                PcsSetText("");
             });
         });
     }
 
     private void JMPPlayer(){
-        PC.setText("105");
+        PcSetText("105");
+        //PC.setText("105");
         outDescription.setText(flagDescription[4]);
         //JMP 音频播放控件
         JMPPlayer = new MediaPlayer(new Media(getClass().getResource("audio/JMP.mp3").toString()));
@@ -402,7 +419,8 @@ public class Main extends Application{
         });
     }
     private void JMP(){
-            PCS.setText("101");
+        PcsSetText("101");
+            //PCS.setText("101");
             Path path = new Path();
             path.getElements().add(new MoveTo(670,512));
             path.getElements().add(new VLineTo(382));
@@ -414,8 +432,10 @@ public class Main extends Application{
             pt.setNode(PcShow);//设置物体
             pt.play();//启动动画
         pt.setOnFinished(event -> {
-            PC.setText("101");
-            PCS.setText("");
+            PcSetText("101");
+            //PC.setText("101");
+            PcsSetText("");
+            //PCS.setText("");
         });
     }
 
@@ -434,47 +454,38 @@ public class Main extends Application{
     }
     private void ALL() {
         ALLPlayer();
-        new Timer().schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                Common("MOV");
-                MOV();
-            }
-        },0);
-        new Timer().schedule(new TimerTask() {
-
+        Timer timer =new Timer();
+        timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Common("MOV");
+                }
+            },0);
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Common("LAD");
-                ADD();
             }
-        },75000);//设置延迟75秒
-        new Timer().schedule(new TimerTask() {
-
+        },75000);
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Common("ADD");
-                LAD();
             }
-        },118000);//设置延迟43秒
-        new Timer().schedule(new TimerTask() {
-
+        },118000);
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Common("STO");
-                STO();
             }
-        },154000);//设置延迟36秒
-        new Timer().schedule(new TimerTask() {
+        },154000);
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Common("JMP");
-                JMP();//设置延迟44秒
             }
         },198000);
-    }
-
+};
     private void showCommand(){
         //判断
         try {
@@ -515,11 +526,8 @@ public class Main extends Application{
                     ALL();
                     break;
             }
-
             //检查复选框状态
             if (chkLog.selectedProperty().getValue()) {
-            /*PrintStream print= new PrintStream("./output.txt");//输出到文件
-               System.setOut(print);*/
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
                 String text = "=================================\n"
                         + "当前时间: " + df.format(new Date())
@@ -534,5 +542,40 @@ public class Main extends Application{
             outDescription.setText("请在R0,R1,R2中输入有效数字!!!");
             System.out.println("Bad Ending!!!");
         }
+    }
+    private void PcsSetText(String text) {
+        Platform.runLater(() -> {
+            PCS.setText(text);
+        });
+    }
+    private void PcSetText(String text){
+        Platform.runLater(()->{
+            PC.setText(text);
+        });
+    }
+    private void Command1(){
+        Platform.runLater(()->{
+            PCS.setText(command1);
+        });
+    }
+    private void R0LabelText(String text) {
+        Platform.runLater(() -> {
+            R0Label.setText(text);
+        });
+    }
+    private void R1LabelText(String text) {
+        Platform.runLater(() -> {
+            R1Label.setText(text);
+        });
+    }
+    private void R2LabelText(String text) {
+        Platform.runLater(() -> {
+            R2Label.setText(text);
+        });
+    }
+    private void Cache(String text){
+        Platform.runLater(()->{
+            cache30.setText(text);
+        });
     }
 }

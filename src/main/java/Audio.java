@@ -1,4 +1,6 @@
 import javafx.scene.media.*;
+//媒体类
+//2019-3-06
 public class Audio implements ActionInterface.play,ActionInterface.pause,ActionInterface.stop{
     private String name = "MOV";
     String nameTmp = "audio/"+name+".mp3";

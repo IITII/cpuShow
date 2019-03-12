@@ -1,5 +1,5 @@
 public class Check {
-
+//验证输入的数据是否为有效数字
     public String check(String s0, String s1, String s2){
         String error = "1";
         try{
