@@ -28,7 +28,8 @@ Keyword：Timeline，多线程，~~基于文字生成图片~~
 
 ### 使用方法
 > 软件要求：Windows已安装JDK8，Ubuntu（Linux）已安装openjdk-8-jdk  
-> 其他的版本不做过多解释
+> 其他的版本不做过多解释  
+> Gradle项目，如有乱码问题还请自行编译
 * Windows：下载后双击即可
 * Ubuntu(Linux): 
 ```bash
