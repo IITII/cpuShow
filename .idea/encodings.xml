@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/src/main/java/Audio.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Check.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/CreImage.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/Main.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Write.java" charset="GBK" />
   </component>
 </project>

@@ -1,5 +1,5 @@
 /*
-* æ–‡ä»¶å†™å…¥ç±»
+* ÎÄ¼şĞ´ÈëÀà
 * */
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,13 +10,13 @@ public class Write {
         this.text = write;
         this.filename = fileName;
         try{
-            // æ‰“å¼€ä¸€ä¸ªå†™æ–‡ä»¶å™¨ï¼Œæ„é€ å‡½æ•°ä¸­çš„ç¬¬äºŒä¸ªå‚æ•°trueè¡¨ç¤ºä»¥è¿½åŠ å½¢å¼å†™æ–‡ä»¶
+            // ´ò¿ªÒ»¸öĞ´ÎÄ¼şÆ÷£¬¹¹Ôìº¯ÊıÖĞµÄµÚ¶ş¸ö²ÎÊıtrue±íÊ¾ÒÔ×·¼ÓĞÎÊ½Ğ´ÎÄ¼ş
             FileWriter writer = new FileWriter(fileName, true);
             writer.write(text);
             writer.close();
         }catch (IOException e){
-            System.err.println("æ–‡ä»¶å†™å…¥é”™è¯¯!!!");
-            //outDescription.setText("æ–‡ä»¶å†™å…¥é”™è¯¯!!!");
+            System.err.println("ÎÄ¼şĞ´Èë´íÎó!!!");
+            //outDescription.setText("ÎÄ¼şĞ´Èë´íÎó!!!");
 
         }
     }

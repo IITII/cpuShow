@@ -1,5 +1,5 @@
 public class Check {
-//éªŒè¯è¾“å…¥çš„æ•°æ®æ˜¯å¦ä¸ºæœ‰æ•ˆæ•°å­—
+//ÑéÖ¤ÊäÈëµÄÊı¾İÊÇ·ñÎªÓĞĞ§Êı×Ö
     public String check(String s0, String s1, String s2){
         String error = "1";
         try{
@@ -7,7 +7,7 @@ public class Check {
             int r1 = Integer.parseInt(s1);
             int r2 = Integer.parseInt(s2);
         }catch (NumberFormatException e){
-            error = "è¯·åœ¨R0,R1,R2ä¸­è¾“å…¥æœ‰æ•ˆæ•°å­—!!!";
+            error = "ÇëÔÚR0,R1,R2ÖĞÊäÈëÓĞĞ§Êı×Ö!!!";
         }
         return error;
     }

@@ -5,32 +5,32 @@ import java.awt.*;
 
 public class CreImage {
     //String inputNumber = "6";
-    /*private Integer intInputNumber = 0; //é»˜è®¤å›¾ç‰‡ä¸­æ–‡å­—
-    private String strInputPath = "./test.png";//é»˜è®¤å­˜æ”¾è·¯å¾„*/
+    /*private Integer intInputNumber = 0; //Ä¬ÈÏÍ¼Æ¬ÖĞÎÄ×Ö
+    private String strInputPath = "./test.png";//Ä¬ÈÏ´æ·ÅÂ·¾¶*/
 
     public void getImages(String strInputNumber, String strInputPath) {
-        //this.inputNumber = inputNumber; //inputNumberï¼šå›¾ç‰‡ä¸­æ–‡å­—
-        //this.strInputPath = strInputPath; //strInputPathï¼šé»˜è®¤æ–‡ä»¶å­˜æ”¾è·¯å¾„
+        //this.inputNumber = inputNumber; //inputNumber£ºÍ¼Æ¬ÖĞÎÄ×Ö
+        //this.strInputPath = strInputPath; //strInputPath£ºÄ¬ÈÏÎÄ¼ş´æ·ÅÂ·¾¶
 
         //String chrInputName = null;
         //chrInputNumber = inputNumber.toString();
         try {
             int width = 81;
             int height = 24;
-            // åˆ›å»ºBufferedImageå¯¹è±¡
-            Font font = new Font("å®‹ä½“", Font.PLAIN, 16);
+            // ´´½¨BufferedImage¶ÔÏó
+            Font font = new Font("ËÎÌå", Font.PLAIN, 16);
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            // è·å–Graphics2D
+            // »ñÈ¡Graphics2D
             Graphics2D g2d = image.createGraphics();
-            // ç”»å›¾
+            // »­Í¼
             g2d.setBackground(new Color(255, 255, 255));
             g2d.setPaint(new Color(0, 0, 0));
             g2d.clearRect(0, 0, width, height);
             g2d.drawString(strInputNumber, 36, 10);
             g2d.setFont(font);
-            //é‡Šæ”¾å¯¹è±¡
+            //ÊÍ·Å¶ÔÏó
             g2d.dispose();
-            // ä¿å­˜æ–‡ä»¶
+            // ±£´æÎÄ¼ş
             ImageIO.write(image, "png", new File(strInputPath));
         } catch (Exception ex) {
             ex.printStackTrace();

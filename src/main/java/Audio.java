@@ -1,5 +1,5 @@
 import javafx.scene.media.*;
-//εª’δ½“η±»
+//Γ½Μεΐΰ
 //2019-3-06
 public class Audio implements ActionInterface.play,ActionInterface.pause,ActionInterface.stop{
     private String name = "MOV";
